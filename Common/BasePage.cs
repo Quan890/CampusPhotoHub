@@ -10,6 +10,30 @@ namespace CampusPhotoShare.Common
 {
     public class BasePage : Page
     {
+        private StringBuilder _alerts = new StringBuilder();
+
+        protected override void Render(HtmlTextWriter writer)
+        {
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter hw = new HtmlTextWriter(sw);
+            base.Render(hw);
+            string html = sw.ToString();
+            string script = _alerts.ToString();
+            if (script.Length > 0)
+            {
+                int pos = html.LastIndexOf("</body>", StringComparison.OrdinalIgnoreCase);
+                if (pos >= 0)
+                {
+                    html = html.Substring(0, pos) + script + html.Substring(pos);
+                }
+                else
+                {
+                    html += script;
+                }
+            }
+            writer.Write(html);
+        }
+
         protected int CurrentUserId
         {
             get
@@ -71,7 +95,7 @@ namespace CampusPhotoShare.Common
         {
             if (!IsLogin)
             {
-                Response.Redirect("Login.aspx?returnUrl=" + Server.UrlEncode(Request.RawUrl));
+                AlertAndRedirect("请先登录后再操作", "Login.aspx?returnUrl=" + Server.UrlEncode(Request.RawUrl));
             }
         }
 
@@ -86,16 +110,14 @@ namespace CampusPhotoShare.Common
 
         protected void Alert(string message)
         {
-            string script = "alert('" + JsEncode(message) + "');";
-            ClientScript.RegisterStartupScript(GetType(), Guid.NewGuid().ToString("N"), script, true);
+            _alerts.Append("<script>alert('" + JsEncode(message) + "');</script>");
         }
 
         protected void AlertAndRedirect(string message, string url)
         {
             string escapedMsg = JsEncode(message);
             string escapedUrl = JsEncode(url);
-            HttpContext.Current.Response.Write("<script>alert('" + escapedMsg + "');window.location='" + escapedUrl + "';</script>");
-            HttpContext.Current.Response.End();
+            _alerts.Append("<script>alert('" + escapedMsg + "');window.location='" + escapedUrl + "';</script>");
         }
 
         public static string Md5(string text)
@@ -124,27 +146,35 @@ namespace CampusPhotoShare.Common
 
         protected string BuildNavHtml()
         {
+            string page = Path.GetFileName(Request.Path).ToLower();
             StringBuilder html = new StringBuilder();
-            html.Append("<a href=\"Default.aspx\">首页</a>");
-            html.Append("<a href=\"WorkType.aspx\">作品分类</a>");
-            html.Append("<a href=\"PhotoList.aspx\">摄影师列表</a>");
-            html.Append("<a href=\"BookOrder.aspx\">约拍预约</a>");
+            html.Append(NavLink("Default.aspx", "首页", page));
+            html.Append(NavLink("WorkType.aspx", "作品分类", page));
+            html.Append(NavLink("PhotoList.aspx", "摄影师列表", page));
+            html.Append(NavLink("BookOrder.aspx", "约拍预约", page));
 
             if (IsLogin)
             {
-                html.Append("<a href=\"MyInfo.aspx\">个人中心</a>");
+                html.Append(NavLink("MyInfo.aspx", "个人中心", page));
                 if (CurrentRole == "admin")
                 {
-                    html.Append("<a href=\"AdminMain.aspx\">管理员后台</a>");
+                    html.Append(NavLink("AdminMain.aspx", "管理员后台", page));
                 }
                 html.Append("<a href=\"Login.aspx?action=logout\">退出登录</a>");
             }
             else
             {
-                html.Append("<a href=\"Login.aspx\">登录</a>");
+                html.Append(NavLink("Login.aspx", "登录", page));
             }
 
             return html.ToString();
+        }
+
+        private string NavLink(string url, string text, string currentPage)
+        {
+            string target = url.Split('?')[0].ToLower();
+            string cls = currentPage == target ? " class=\"active\"" : "";
+            return "<a href=\"" + url + "\"" + cls + ">" + text + "</a>";
         }
 
         protected string BuildUserBarHtml()

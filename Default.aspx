@@ -33,5 +33,17 @@
         </div>
     </div>
     <div class="footer">校园摄影作品分享与约拍平台 | ASP.NET Web Forms + ADO.NET + MySQL</div>
+<button class="back-to-top" id="backToTop" title="回到顶部">↑</button>
+<script>
+(function () {
+    var btn = document.getElementById('backToTop');
+    window.addEventListener('scroll', function () {
+        if (btn) btn.classList.toggle('show', window.scrollY > 300);
+    });
+    if (btn) btn.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+})();
+</script>
 </body>
 </html>

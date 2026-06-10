@@ -43,8 +43,7 @@ namespace CampusPhotoShare
         {
             if (!IsLogin)
             {
-                Response.Redirect("Login.aspx?returnUrl=BookOrder.aspx", false);
-                Context.ApplicationInstance.CompleteRequest();
+                Alert("请先登录后再操作");
                 return;
             }
             int pid = ToInt(FormText("photographer_id"), 0);

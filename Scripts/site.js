@@ -1,3 +1,18 @@
+// 顶部导航栏当前页面高亮
+document.addEventListener('DOMContentLoaded', function () {
+    var nav = document.querySelector('.nav');
+    if (!nav) return;
+    var page = location.pathname.split('/').pop().toLowerCase();
+    var links = nav.querySelectorAll('a');
+    for (var i = 0; i < links.length; i++) {
+        var href = links[i].getAttribute('href');
+        if (href && href.split('?')[0].toLowerCase() === page) {
+            links[i].classList.add('active');
+            break;
+        }
+    }
+});
+
 function startCarousel() {
     var box = document.getElementById("homeCarousel");
     if (!box) return;

@@ -1,6 +1,6 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="CampusPhotoShare.Login" %>
 <!DOCTYPE html>
-<html><head runat="server"><meta charset="utf-8" /><title>登录注册</title><link href="Css/site.css" rel="stylesheet" /><script src="Scripts/security.js"></script></head>
+<html><head runat="server"><meta charset="utf-8" /><title>登录注册</title><link href="Css/site.css" rel="stylesheet" /><script src="Scripts/site.js"></script><script src="Scripts/security.js"></script></head>
 <body>
 <div class="topbar"><div class="topbar-inner"><div class="brand"><span class="brand-mark">影</span>校园摄影约拍</div><div class="nav"><%= BuildNavHtml() %></div></div></div>
 <div class="userbar"><div class="userbar-inner"><%= BuildUserBarHtml() %></div></div>
@@ -12,7 +12,6 @@
         <div class="form-row"><label>账号</label><input class="input" name="user_name" /></div>
         <div class="form-row"><label>密码</label><input class="input" type="password" name="password" /></div>
         <button class="btn" type="submit">登录</button>
-        <p class="muted">默认管理员：admin/123456；摄影师：test/123456。</p>
     </form>
     <form method="post" action="Login.aspx" class="form-panel" onsubmit="return submitRegisterForm(this)">
         <input type="hidden" name="action" value="register" />
@@ -27,4 +26,16 @@
     </form>
 </div>
 <div class="footer">校园摄影作品分享与约拍平台</div>
+<button class="back-to-top" id="backToTop" title="回到顶部">↑</button>
+<script>
+(function () {
+    var btn = document.getElementById('backToTop');
+    window.addEventListener('scroll', function () {
+        if (btn) btn.classList.toggle('show', window.scrollY > 300);
+    });
+    if (btn) btn.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+})();
+</script>
 </body></html>
