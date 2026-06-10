@@ -1,0 +1,5 @@
+C:\Users\QL\Documents\asp.net课题(完整)\obj\Debug\CampusPhotoShare.csprojResolveAssemblyReference.cache
+C:\Users\QL\Documents\asp.net课题(完整)\bin\CampusPhotoShare.dll
+C:\Users\QL\Documents\asp.net课题(完整)\bin\CampusPhotoShare.pdb
+C:\Users\QL\Documents\asp.net课题(完整)\obj\Debug\CampusPhotoShare.dll
+C:\Users\QL\Documents\asp.net课题(完整)\obj\Debug\CampusPhotoShare.pdb
