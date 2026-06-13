@@ -56,7 +56,9 @@ namespace CampusPhotoShare
             }
             DBHelper.ExecuteNonQuery("update photo_work set view_count=view_count+1 where work_id=@id", new MySqlParameter("@id", WorkId));
             DataRow row = table.Rows[0];
-            DetailHtml = "<div class=\"card\"><img style=\"width:100%;max-height:560px;object-fit:cover;display:block\" src=\"" + HtmlEncode(row["image_url"]) + "\" /><div class=\"card-body\"><span class=\"tag\">" + HtmlEncode(row["work_type"]) + "</span><h2>" + HtmlEncode(row["title"]) + "</h2><p class=\"muted\">摄影师：<a href=\"PhotoHome.aspx?id=" + row["photographer_id"] + "\">" + HtmlEncode(row["nick_name"]) + "</a> | 浏览：" + HtmlEncode(row["view_count"]) + "</p><p>" + HtmlEncode(row["description"]) + "</p></div></div>";
+            int views = Convert.ToInt32(row["view_count"]) + 1;
+            string viewText = views >= 1000 ? "1000+" : views.ToString();
+            DetailHtml = "<div class=\"card\"><img style=\"width:100%;max-height:560px;object-fit:cover;display:block\" src=\"" + HtmlEncode(row["image_url"]) + "\" /><div class=\"card-body\"><span class=\"tag\">" + HtmlEncode(row["work_type"]) + "</span><h2>" + HtmlEncode(row["title"]) + "</h2><p class=\"muted\">摄影师：<a href=\"PhotoHome.aspx?id=" + row["photographer_id"] + "\">" + HtmlEncode(row["nick_name"]) + "</a> | 浏览：" + viewText + "</p><p>" + HtmlEncode(row["description"]) + "</p></div></div>";
         }
 
         private void LoadComments()

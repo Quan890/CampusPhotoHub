@@ -18,7 +18,7 @@ namespace CampusPhotoShare
 
         private void LoadWorks()
         {
-            DataTable table = DBHelper.GetDataTable("select w.*,p.nick_name from photo_work w inner join photographer p on w.photographer_id=p.photographer_id where w.audit_status=1 order by w.is_recommend desc,w.view_count desc limit 6");
+            DataTable table = DBHelper.GetDataTable("select w.*,p.nick_name from photo_work w inner join photographer p on w.photographer_id=p.photographer_id where w.audit_status=1 order by w.is_recommend*1000+w.view_count desc limit 6");
             StringBuilder html = new StringBuilder();
             for (int i = 0; i < table.Rows.Count; i++)
             {

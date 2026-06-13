@@ -350,6 +350,87 @@ a:hover {
     font-weight: bold;
 }
 
+.pager {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin: 28px 0 10px;
+}
+
+.pager-num, .pager-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    border-radius: 6px;
+    border: 1px solid #d5e0e3;
+    background: #ffffff;
+    color: #34515a;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background .2s, color .2s, border-color .2s;
+}
+
+.pager-num:hover, .pager-btn:hover {
+    background: #edf5f4;
+    border-color: #247a72;
+    color: #247a72;
+}
+
+.pager-num.active {
+    background: #247a72;
+    border-color: #247a72;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: default;
+}
+
+.pager-btn.disabled, .pager-btn.disabled:hover {
+    background: #f3f7f8;
+    border-color: #e2e9eb;
+    color: #b0bec5;
+    cursor: default;
+}
+
+.pager-ellipsis {
+    color: #718188;
+    padding: 0 4px;
+}
+
+.inline-form {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+
+.filter-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+.filter-bar a {
+    padding: 8px 18px;
+    border-radius: 6px;
+    background: #edf3f2;
+    color: #245a55;
+    font-size: 14px;
+    transition: background .2s, color .2s;
+}
+
+.filter-bar a:hover {
+    background: #dcebea;
+}
+
+.filter-bar a.active {
+    background: #247a72;
+    color: #ffffff;
+}
+
 .back-to-top {
     position: fixed;
     right: 30px;

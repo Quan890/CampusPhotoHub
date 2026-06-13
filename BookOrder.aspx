@@ -2,9 +2,12 @@
 <!DOCTYPE html>
 <html><head runat="server"><meta charset="utf-8" /><title>约拍预约</title><link href="Css/site.css" rel="stylesheet" /><script src="Scripts/site.js"></script></head>
 <body>
+<!-- ========== 顶部导航栏 ========== -->
 <div class="topbar"><div class="topbar-inner"><div class="brand"><span class="brand-mark">影</span>校园摄影约拍</div><div class="nav"><%= BuildNavHtml() %></div></div></div>
+<!-- ========== 用户信息栏 ========== -->
 <div class="userbar"><div class="userbar-inner"><%= BuildUserBarHtml() %></div></div>
 <div class="container">
+<!-- ========== 约拍预约表单（需登录，选择摄影师+日期+地点+需求） ========== -->
 <form method="post" action="BookOrder.aspx" class="form-panel">
     <input type="hidden" name="action" value="book" />
     <h2>提交约拍预约</h2>

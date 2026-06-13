@@ -2,9 +2,12 @@
 <!DOCTYPE html>
 <html><head runat="server"><meta charset="utf-8" /><title>登录注册</title><link href="Css/site.css" rel="stylesheet" /><script src="Scripts/site.js"></script><script src="Scripts/security.js"></script></head>
 <body>
+<!-- ========== 顶部导航栏 ========== -->
 <div class="topbar"><div class="topbar-inner"><div class="brand"><span class="brand-mark">影</span>校园摄影约拍</div><div class="nav"><%= BuildNavHtml() %></div></div></div>
+<!-- ========== 用户信息栏 ========== -->
 <div class="userbar"><div class="userbar-inner"><%= BuildUserBarHtml() %></div></div>
 <div class="container two-col">
+    <!-- ========== 登录表单（密码前端MD5加密后提交） ========== -->
     <form method="post" action="Login.aspx" class="form-panel" onsubmit="return submitLoginForm(this)">
         <input type="hidden" name="action" value="login" />
         <input type="hidden" name="password_hash" value="" />
@@ -13,6 +16,7 @@
         <div class="form-row"><label>密码</label><input class="input" type="password" name="password" /></div>
         <button class="btn" type="submit">登录</button>
     </form>
+    <!-- ========== 注册表单（注册为普通用户角色） ========== -->
     <form method="post" action="Login.aspx" class="form-panel" onsubmit="return submitRegisterForm(this)">
         <input type="hidden" name="action" value="register" />
         <input type="hidden" name="reg_password_hash" value="" />

@@ -3,3 +3,8 @@ C:\Users\QL\Documents\asp.net课题(完整)\bin\CampusPhotoShare.dll
 C:\Users\QL\Documents\asp.net课题(完整)\bin\CampusPhotoShare.pdb
 C:\Users\QL\Documents\asp.net课题(完整)\obj\Debug\CampusPhotoShare.dll
 C:\Users\QL\Documents\asp.net课题(完整)\obj\Debug\CampusPhotoShare.pdb
+D:\AAProjects\ASPNET\CampusPhotoHub\bin\CampusPhotoShare.dll
+D:\AAProjects\ASPNET\CampusPhotoHub\bin\CampusPhotoShare.pdb
+D:\AAProjects\ASPNET\CampusPhotoHub\obj\Debug\CampusPhotoShare.csprojResolveAssemblyReference.cache
+D:\AAProjects\ASPNET\CampusPhotoHub\obj\Debug\CampusPhotoShare.dll
+D:\AAProjects\ASPNET\CampusPhotoHub\obj\Debug\CampusPhotoShare.pdb

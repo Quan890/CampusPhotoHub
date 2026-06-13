@@ -2,21 +2,27 @@
 <!DOCTYPE html>
 <html><head runat="server"><meta charset="utf-8" /><title>个人中心</title><link href="Css/site.css" rel="stylesheet" /><script src="Scripts/site.js"></script></head>
 <body>
+<!-- ========== 顶部导航栏 ========== -->
 <div class="topbar"><div class="topbar-inner"><div class="brand"><span class="brand-mark">影</span>校园摄影约拍</div><div class="nav"><%= BuildNavHtml() %></div></div></div>
+<!-- ========== 用户信息栏 ========== -->
 <div class="userbar"><div class="userbar-inner"><%= BuildUserBarHtml() %></div></div>
 <div class="container">
     <div class="section-title"><h2>个人中心</h2></div>
     <div class="two-col">
+        <!-- ========== 左侧导航菜单（滚动固定+高亮） ========== -->
         <div class="side-menu"><a href="#profile">资料修改</a><a href="#orders">我的约拍</a><%= PhotographerMenu %></div>
         <div>
+            <!-- ========== 资料修改表单（姓名、性别、手机、邮箱、密码） ========== -->
             <form id="profile" method="post" action="MyInfo.aspx" enctype="multipart/form-data" class="form-panel">
                 <input type="hidden" name="action" value="profile" />
                 <h2>资料修改</h2>
                 <%= ProfileFormHtml %>
                 <button class="btn" type="submit">保存资料</button>
             </form>
+            <!-- ========== 我的约拍订单列表 ========== -->
             <div id="orders" class="section-title"><h2>我的约拍</h2></div>
             <%= OrderHtml %>
+            <!-- ========== 摄影师专区（仅摄影师可见：资料编辑+作品管理） ========== -->
             <%= PhotographerPanelHtml %>
         </div>
     </div>
