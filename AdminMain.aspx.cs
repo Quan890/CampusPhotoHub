@@ -57,6 +57,9 @@ namespace CampusPhotoShare
             }
             if (action == "photo_add")
             {
+                if (FormText("user_name").Length == 0) { Alert("请输入摄影师账号。"); return; }
+                if (FormText("password").Length == 0) { Alert("请输入密码。"); return; }
+                if (FormText("nick_name").Length == 0) { Alert("请输入昵称。"); return; }
                 object count = DBHelper.ExecuteScalar("select count(*) from sys_user where user_name=@name", new MySqlParameter("@name", FormText("user_name")));
                 if (Convert.ToInt32(count) > 0)
                 {
@@ -80,6 +83,10 @@ namespace CampusPhotoShare
             }
             if (action == "order_add")
             {
+                if (ToInt(FormText("user_id"), 0) <= 0) { Alert("请选择用户。"); return; }
+                if (ToInt(FormText("photographer_id"), 0) <= 0) { Alert("请选择摄影师。"); return; }
+                if (FormText("shoot_date").Length == 0) { Alert("请输入拍摄日期。"); return; }
+                if (FormText("shoot_place").Length == 0) { Alert("请输入拍摄地点。"); return; }
                 DBHelper.ExecuteNonQuery("insert into book_order(user_id,photographer_id,shoot_date,shoot_place,requirement,order_status,create_time) values(@uid,@pid,@date,@place,@req,@status,now())", new MySqlParameter("@uid", ToInt(FormText("user_id"), 0)), new MySqlParameter("@pid", ToInt(FormText("photographer_id"), 0)), new MySqlParameter("@date", FormText("shoot_date")), new MySqlParameter("@place", FormText("shoot_place")), new MySqlParameter("@req", FormText("requirement")), new MySqlParameter("@status", FormText("order_status")));
                 Alert("订单已新增。");
             }
@@ -95,6 +102,9 @@ namespace CampusPhotoShare
             }
             if (action == "comment_add")
             {
+                if (ToInt(FormText("work_id"), 0) <= 0) { Alert("请选择作品。"); return; }
+                if (ToInt(FormText("user_id"), 0) <= 0) { Alert("请选择用户。"); return; }
+                if (FormText("content").Length == 0) { Alert("请输入评论内容。"); return; }
                 DBHelper.ExecuteNonQuery("insert into comment(work_id,user_id,content,status,create_time) values(@wid,@uid,@content,1,now())", new MySqlParameter("@wid", ToInt(FormText("work_id"), 0)), new MySqlParameter("@uid", ToInt(FormText("user_id"), 0)), new MySqlParameter("@content", FormText("content")));
                 Alert("评论已新增。");
             }
