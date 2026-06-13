@@ -104,7 +104,8 @@ namespace CampusPhotoShare.Common
             RequireLogin();
             if (CurrentRole != "admin")
             {
-                Response.Redirect("Default.aspx");
+                Response.Redirect("Default.aspx", false);
+                Context.ApplicationInstance.CompleteRequest();
             }
         }
 

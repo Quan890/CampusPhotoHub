@@ -11,7 +11,7 @@ namespace CampusPhotoShare
         {
             if (QueryText("action") == "logout")
             {
-                Session.Clear();
+                Session.Abandon();
                 AlertAndRedirect("已退出登录。", "Default.aspx");
                 return;
             }
@@ -53,7 +53,7 @@ namespace CampusPhotoShare
             Session["UserName"] = row["user_name"];
             Session["Role"] = row["role"];
             string returnUrl = QueryText("returnUrl");
-            if (returnUrl.Length > 0)
+            if (returnUrl.Length > 0 && returnUrl.StartsWith("/") && !returnUrl.StartsWith("//"))
             {
                 Response.Redirect(returnUrl, false);
                 Context.ApplicationInstance.CompleteRequest();

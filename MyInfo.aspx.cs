@@ -38,6 +38,11 @@ namespace CampusPhotoShare
         private void LoadProfile()
         {
             DataTable table = DBHelper.GetDataTable("select * from sys_user where user_id=@id", new MySqlParameter("@id", CurrentUserId));
+            if (table.Rows.Count == 0)
+            {
+                ProfileFormHtml = "<div class=\"form-panel\">用户信息不存在，请重新登录。</div>";
+                return;
+            }
             DataRow row = table.Rows[0];
             ProfileFormHtml = "<div class=\"form-row\"><label>账号</label><input class=\"input\" value=\"" + HtmlEncode(row["user_name"]) + "\" disabled=\"disabled\" /></div>"
                 + "<div class=\"form-row\"><label>姓名</label><input class=\"input\" name=\"real_name\" value=\"" + HtmlEncode(row["real_name"]) + "\" /></div>"

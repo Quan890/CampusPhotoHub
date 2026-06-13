@@ -46,17 +46,17 @@ namespace CampusPhotoShare
                 DBHelper.ExecuteNonQuery("insert into photo_work(photographer_id,title,work_type,image_url,description,is_recommend,audit_status,view_count,create_time) values(@pid,@title,@type,@img,@desc,@rec,@audit,0,now())", new MySqlParameter("@pid", ToInt(FormText("photographer_id"), 0)), new MySqlParameter("@title", FormText("title")), new MySqlParameter("@type", FormText("work_type")), new MySqlParameter("@img", img), new MySqlParameter("@desc", FormText("description")), new MySqlParameter("@rec", ToInt(FormText("is_recommend"), 0)), new MySqlParameter("@audit", ToInt(FormText("audit_status"), 1)));
                 Alert("作品已新增。");
             }
-            if (action == "work_audit")
+            else if (action == "work_audit")
             {
                 DBHelper.ExecuteNonQuery("update photo_work set audit_status=@s,is_recommend=@r where work_id=@id", new MySqlParameter("@s", ToInt(FormText("audit_status"), 0)), new MySqlParameter("@r", ToInt(FormText("is_recommend"), 0)), new MySqlParameter("@id", ToInt(FormText("work_id"), 0)));
                 Alert("作品状态已更新。");
             }
-            if (action == "work_delete")
+            else if (action == "work_delete")
             {
                 DBHelper.ExecuteNonQuery("delete from photo_work where work_id=@id", new MySqlParameter("@id", ToInt(FormText("work_id"), 0)));
                 Alert("作品已删除。");
             }
-            if (action == "photo_add")
+            else if (action == "photo_add")
             {
                 int uid = ToInt(FormText("user_id"), 0);
                 if (uid <= 0) { Alert("请选择一个用户。"); return; }
@@ -73,17 +73,17 @@ namespace CampusPhotoShare
                 DBHelper.ExecuteNonQuery("update sys_user set role='photographer' where user_id=@uid", new MySqlParameter("@uid", uid));
                 Alert("摄影师已新增。");
             }
-            if (action == "photo_save")
+            else if (action == "photo_save")
             {
                 DBHelper.ExecuteNonQuery("update photographer set nick_name=@name,specialty=@sp,price=@price,intro=@intro,free_time=@free,status=@status where photographer_id=@id", new MySqlParameter("@name", FormText("nick_name")), new MySqlParameter("@sp", FormText("specialty")), new MySqlParameter("@price", ToDecimal(FormText("price"), 0)), new MySqlParameter("@intro", FormText("intro")), new MySqlParameter("@free", FormText("free_time")), new MySqlParameter("@status", ToInt(FormText("status"), 1)), new MySqlParameter("@id", ToInt(FormText("photographer_id"), 0)));
                 Alert("摄影师信息已更新。");
             }
-            if (action == "photo_delete")
+            else if (action == "photo_delete")
             {
                 DBHelper.ExecuteNonQuery("delete from photographer where photographer_id=@id", new MySqlParameter("@id", ToInt(FormText("photographer_id"), 0)));
                 Alert("摄影师已删除。");
             }
-            if (action == "order_add")
+            else if (action == "order_add")
             {
                 if (ToInt(FormText("user_id"), 0) <= 0) { Alert("请选择用户。"); return; }
                 if (ToInt(FormText("photographer_id"), 0) <= 0) { Alert("请选择摄影师。"); return; }
@@ -92,17 +92,17 @@ namespace CampusPhotoShare
                 DBHelper.ExecuteNonQuery("insert into book_order(user_id,photographer_id,shoot_date,shoot_place,requirement,order_status,create_time) values(@uid,@pid,@date,@place,@req,@status,now())", new MySqlParameter("@uid", ToInt(FormText("user_id"), 0)), new MySqlParameter("@pid", ToInt(FormText("photographer_id"), 0)), new MySqlParameter("@date", FormText("shoot_date")), new MySqlParameter("@place", FormText("shoot_place")), new MySqlParameter("@req", FormText("requirement")), new MySqlParameter("@status", FormText("order_status")));
                 Alert("订单已新增。");
             }
-            if (action == "order_save")
+            else if (action == "order_save")
             {
                 DBHelper.ExecuteNonQuery("update book_order set shoot_date=@date,shoot_place=@place,requirement=@req,order_status=@status where order_id=@id", new MySqlParameter("@date", FormText("shoot_date")), new MySqlParameter("@place", FormText("shoot_place")), new MySqlParameter("@req", FormText("requirement")), new MySqlParameter("@status", FormText("order_status")), new MySqlParameter("@id", ToInt(FormText("order_id"), 0)));
                 Alert("订单已更新。");
             }
-            if (action == "order_delete")
+            else if (action == "order_delete")
             {
                 DBHelper.ExecuteNonQuery("delete from book_order where order_id=@id", new MySqlParameter("@id", ToInt(FormText("order_id"), 0)));
                 Alert("订单已删除。");
             }
-            if (action == "comment_add")
+            else if (action == "comment_add")
             {
                 if (ToInt(FormText("work_id"), 0) <= 0) { Alert("请选择作品。"); return; }
                 if (ToInt(FormText("user_id"), 0) <= 0) { Alert("请选择用户。"); return; }
@@ -110,12 +110,12 @@ namespace CampusPhotoShare
                 DBHelper.ExecuteNonQuery("insert into comment(work_id,user_id,content,status,create_time) values(@wid,@uid,@content,1,now())", new MySqlParameter("@wid", ToInt(FormText("work_id"), 0)), new MySqlParameter("@uid", ToInt(FormText("user_id"), 0)), new MySqlParameter("@content", FormText("content")));
                 Alert("评论已新增。");
             }
-            if (action == "comment_status")
+            else if (action == "comment_status")
             {
                 DBHelper.ExecuteNonQuery("update comment set status=@s where comment_id=@id", new MySqlParameter("@s", ToInt(FormText("status"), 1)), new MySqlParameter("@id", ToInt(FormText("comment_id"), 0)));
                 Alert("评论状态已更新。");
             }
-            if (action == "comment_delete")
+            else if (action == "comment_delete")
             {
                 DBHelper.ExecuteNonQuery("delete from comment where comment_id=@id", new MySqlParameter("@id", ToInt(FormText("comment_id"), 0)));
                 Alert("评论已删除。");
