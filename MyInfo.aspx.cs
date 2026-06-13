@@ -99,6 +99,11 @@ namespace CampusPhotoShare
         private void LoadPhotographerPanel()
         {
             int pid = GetPhotographerId();
+            if (pid == 0)
+            {
+                PhotographerPanelHtml = "<div class=\"form-panel\">您的摄影师档案尚未创建，请联系管理员。</div>";
+                return;
+            }
             DataTable p = DBHelper.GetDataTable("select * from photographer where photographer_id=@id", new MySqlParameter("@id", pid));
             DataRow row = p.Rows[0];
             StringBuilder html = new StringBuilder();
