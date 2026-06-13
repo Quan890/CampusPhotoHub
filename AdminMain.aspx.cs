@@ -125,9 +125,9 @@ namespace CampusPhotoShare
         {
             string photoOptions = BuildOptions("select photographer_id as id,nick_name as name from photographer order by photographer_id desc");
             string userOptions = BuildOptions("select user_id as id,user_name as name from sys_user order by user_id desc");
-            string availUserOptions = BuildOptions("select u.user_id as id, u.user_name as name from sys_user u left join photographer p on u.user_id=p.user_id where p.photographer_id is null order by u.user_id desc");
+            string photoUserOptions = BuildPhotoUserOptions();
             string workOptions = BuildOptions("select work_id as id,title as name from photo_work order by work_id desc");
-            PhotographerAddHtml = "<form method=\"post\" action=\"AdminMain.aspx\" class=\"form-panel\"><input type=\"hidden\" name=\"action\" value=\"photo_add\" /><h3>新增摄影师</h3><div class=\"form-row\"><label>选择用户（仅显示非摄影师用户）</label><select class=\"select\" name=\"user_id\">" + availUserOptions + "</select></div><div class=\"grid\"><input class=\"input\" name=\"nick_name\" placeholder=\"昵称\" /><input class=\"input\" name=\"specialty\" placeholder=\"专长\" /><input class=\"input\" name=\"price\" placeholder=\"报价\" /></div><div class=\"grid\"><input class=\"input\" name=\"free_time\" placeholder=\"档期\" /></div><div class=\"form-row\"><textarea class=\"textarea\" name=\"intro\" placeholder=\"简介\"></textarea></div><button class=\"btn\" type=\"submit\">新增摄影师</button></form><div style=\"height:12px\"></div>";
+            PhotographerAddHtml = "<form method=\"post\" action=\"AdminMain.aspx\" class=\"form-panel\"><input type=\"hidden\" name=\"action\" value=\"photo_add\" /><h3>新增摄影师</h3><div class=\"form-row\"><label>选择用户</label><select class=\"select\" name=\"user_id\">" + photoUserOptions + "</select></div><div class=\"grid\"><input class=\"input\" name=\"nick_name\" placeholder=\"昵称\" /><input class=\"input\" name=\"specialty\" placeholder=\"专长\" /><input class=\"input\" name=\"price\" placeholder=\"报价\" /></div><div class=\"grid\"><input class=\"input\" name=\"free_time\" placeholder=\"档期\" /></div><div class=\"form-row\"><textarea class=\"textarea\" name=\"intro\" placeholder=\"简介\"></textarea></div><button class=\"btn\" type=\"submit\">新增摄影师</button></form><div style=\"height:12px\"></div>";
             WorkAddHtml = "<form method=\"post\" enctype=\"multipart/form-data\" action=\"AdminMain.aspx\" class=\"form-panel\"><input type=\"hidden\" name=\"action\" value=\"work_add\" /><h3>新增作品</h3><div class=\"grid\"><select class=\"select\" name=\"photographer_id\">" + photoOptions + "</select><input class=\"input\" name=\"title\" placeholder=\"标题\" /><select class=\"select\" name=\"work_type\"><option>人像</option><option>校园风景</option><option>静物</option></select></div><div class=\"grid\"><input class=\"input\" type=\"file\" name=\"work_image\" /><select class=\"select\" name=\"audit_status\"><option value=\"1\">审核通过</option><option value=\"0\">待审核</option></select><select class=\"select\" name=\"is_recommend\"><option value=\"0\">不推荐</option><option value=\"1\">推荐</option></select></div><div class=\"form-row\"><textarea class=\"textarea\" name=\"description\" placeholder=\"作品文案\"></textarea></div><button class=\"btn\" type=\"submit\">新增作品</button></form><div style=\"height:12px\"></div>";
             OrderAddHtml = "<form method=\"post\" action=\"AdminMain.aspx\" class=\"form-panel\"><input type=\"hidden\" name=\"action\" value=\"order_add\" /><h3>新增订单</h3><div class=\"grid\"><select class=\"select\" name=\"user_id\">" + userOptions + "</select><select class=\"select\" name=\"photographer_id\">" + photoOptions + "</select><input class=\"input\" name=\"shoot_date\" placeholder=\"日期：2026-06-20\" /></div><div class=\"grid\"><input class=\"input\" name=\"shoot_place\" placeholder=\"地点\" /><select class=\"select\" name=\"order_status\"><option>待确认</option><option>已确认</option><option>已完成</option><option>已取消</option></select><input class=\"input\" name=\"requirement\" placeholder=\"需求\" /></div><button class=\"btn\" type=\"submit\">新增订单</button></form><div style=\"height:12px\"></div>";
             CommentAddHtml = "<form method=\"post\" action=\"AdminMain.aspx\" class=\"form-panel\"><input type=\"hidden\" name=\"action\" value=\"comment_add\" /><h3>新增评论</h3><div class=\"grid\"><select class=\"select\" name=\"work_id\">" + workOptions + "</select><select class=\"select\" name=\"user_id\">" + userOptions + "</select><input class=\"input\" name=\"content\" placeholder=\"评论内容\" /></div><button class=\"btn\" type=\"submit\">新增评论</button></form><div style=\"height:12px\"></div>";
@@ -141,6 +141,31 @@ namespace CampusPhotoShare
             {
                 DataRow row = table.Rows[i];
                 html.Append("<option value=\"" + row["id"] + "\">" + HtmlEncode(row["name"]) + "</option>");
+            }
+            return html.ToString();
+        }
+
+        private string BuildPhotoUserOptions()
+        {
+            DataTable table = DBHelper.GetDataTable("select u.user_id, u.user_name, u.role, p.photographer_id from sys_user u left join photographer p on u.user_id=p.user_id order by u.user_id");
+            StringBuilder html = new StringBuilder();
+            html.Append("<option value=\"\">-- 请选择用户 --</option>");
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                DataRow row = table.Rows[i];
+                string uid = row["user_id"].ToString();
+                string name = row["user_name"].ToString();
+                string role = row["role"].ToString();
+                bool isPhoto = row["photographer_id"] != DBNull.Value;
+                if (role == "admin" || isPhoto)
+                {
+                    string label = name + (role == "admin" ? "（管理员）" : "（已是摄影师）");
+                    html.Append("<option value=\"" + uid + "\" disabled style=\"color:#b0bec5\">" + HtmlEncode(label) + "</option>");
+                }
+                else
+                {
+                    html.Append("<option value=\"" + uid + "\">" + HtmlEncode(name) + "</option>");
+                }
             }
             return html.ToString();
         }
