@@ -28,7 +28,7 @@ namespace CampusPhotoShare
         private void LoadOptions()
         {
             int selectedId = ToInt(QueryText("pid"), 0);
-            DataTable table = DBHelper.GetDataTable("select photographer_id,nick_name,price from photographer where status=1 order by photographer_id desc");
+            DataTable table = DBHelper.GetDataTable("select photographer_id,nick_name,price from photographer where status=1 and exists(select 1 from photo_work where photographer_id=photographer.photographer_id) order by photographer_id desc");
             StringBuilder html = new StringBuilder();
             for (int i = 0; i < table.Rows.Count; i++)
             {
