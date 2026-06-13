@@ -16,6 +16,7 @@ namespace CampusPhotoShare
         protected void Page_Load(object sender, EventArgs e)
         {
             RequireLogin();
+            if (!IsLogin) return;
             if (Request.HttpMethod == "POST")
             {
                 string action = FormText("action");

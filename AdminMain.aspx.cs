@@ -20,6 +20,7 @@ namespace CampusPhotoShare
         protected void Page_Load(object sender, EventArgs e)
         {
             RequireAdmin();
+            if (!IsLogin || CurrentRole != "admin") return;
             if (Request.HttpMethod == "POST")
             {
                 HandlePost();
